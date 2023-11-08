@@ -118,7 +118,10 @@ function drawCircles(shape, n) {
     if (shape === player) {
         let run = mouseX - shape[0].circleX;
         let rise = mouseY - shape[0].circleY;
-        let angle = Math.atan(rise / run);
+        let angle = Math.atan(rise / run) * 180 / Math.PI + 90;
+        if (run < 0) {
+            angle = Math.atan(rise / run) * 180 / Math.PI + 270;
+        }
 
         ctx.fillStyle = shape[n].circleColor;
         ctx.beginPath();
@@ -130,13 +133,11 @@ function drawCircles(shape, n) {
         ctx.beginPath();
         ctx.save();
         ctx.translate(shape[n].circleX, shape[n].circleY);
-        ctx.rotate(angle);
+        ctx.rotate(angle * Math.PI / 180);
         ctx.moveTo(0, 0);
         ctx.lineTo(0, -shape[n].circleR);
         ctx.stroke();
         ctx.restore();
-
-        console.log(run, rise, angle, angle / Math.PI * 180);
     }
 
     if (shape === bullets) {
@@ -157,25 +158,21 @@ function playerMovement() {
         player[0].circleY -= player[0].yVelocity;
         player[0].lineY -= player[0].yVelocity;
         player[0].lineY1 -= player[0].yVelocity;
-        player[0].lastKeyPressed = "w";
     }
     if (player[0].left === true) {
         player[0].circleX -= player[0].xVelocity;
         player[0].lineX -= player[0].xVelocity;
         player[0].lineX1 -= player[0].xVelocity;
-        player[0].lastKeyPressed = "a";
     }
     if (player[0].right === true) {
         player[0].circleX += player[0].xVelocity;
         player[0].lineX += player[0].xVelocity;
         player[0].lineX1 += player[0].xVelocity;
-        player[0].lastKeyPressed = "d";
     }
     if (player[0].down === true) {
         player[0].circleY += player[0].yVelocity;
         player[0].lineY += player[0].yVelocity;
         player[0].lineY1 += player[0].yVelocity;
-        player[0].lastKeyPressed = "s";
     }
 
     if (player[0].circleX < 0) {
@@ -200,8 +197,16 @@ function playerMovement() {
 }
 
 function playerShoot() {
+    let run1 = mouseX - player[0].circleX;
+    let rise1 = mouseY - player[0].circleY;
+    let hyp1 = Math.sqrt(run1 ** 2 + rise1 ** 2);
+    let hyp2 = player[0].circleR;
+    let scale = hyp1 / hyp2;
+    let run2 = run1 / scale;
+    let rise2 = rise1 / scale;
+
     if (mouseIsPressed === true && bulletReload === 15) {
-        bullets.push(newBullet(player[0].circleX, player[0].circleY, 5, "white", 0, 2, 0, -10));
+        bullets.push(newBullet(player[0].circleX, player[0].circleY, 5, "white", 0, 2, run2, rise2));
         bulletReload = 0;
     }
     bulletReload++;
@@ -209,6 +214,8 @@ function playerShoot() {
     if (bulletReload > 15) {
         bulletReload = 15;
     }
+
+    console.log(run2, rise2)
 }
 
 function moveCircles(n) {
