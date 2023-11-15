@@ -202,8 +202,8 @@ function playerShoot() {
     let hyp1 = Math.sqrt(run1 ** 2 + rise1 ** 2);
     let hyp2 = player[0].circleR;
     let scale = hyp1 / hyp2;
-    let run2 = run1 / scale;
-    let rise2 = rise1 / scale;
+    let run2 = run1 / scale / 2.5;
+    let rise2 = rise1 / scale / 2.5;
 
     if (mouseIsPressed === true && bulletReload === 15) {
         bullets.push(newBullet(player[0].circleX, player[0].circleY, 5, "white", 0, 2, run2, rise2));
@@ -215,7 +215,7 @@ function playerShoot() {
         bulletReload = 15;
     }
 
-    console.log(run2, rise2)
+    console.log(run2, rise2, Math.sqrt((run2) ** 2 + (rise2) ** 2))
 }
 
 function moveCircles(n) {
