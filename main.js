@@ -214,8 +214,6 @@ function playerShoot() {
     if (bulletReload > 15) {
         bulletReload = 15;
     }
-
-    console.log(run2, rise2, Math.sqrt((run2) ** 2 + (rise2) ** 2))
 }
 
 function moveCircles(n) {
