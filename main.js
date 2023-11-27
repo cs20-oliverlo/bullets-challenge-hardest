@@ -108,7 +108,7 @@ function animate() {
 function drawCircles(shape, n) {
     if (shape === circles) {
         ctx.strokeStyle = shape[n].color;
-        ctx.wLine = shape[n].wLine;
+        ctx.lineWidth = shape[n].lineWidth;
         ctx.beginPath();
         ctx.arc(shape[n].x, shape[n].y, shape[n].r, shape[n].startAngle, shape[n].endAngle * Math.PI);
         ctx.stroke();
@@ -128,7 +128,7 @@ function drawCircles(shape, n) {
         ctx.fill();
 
         ctx.strokeStyle = shape.lineColor;
-        ctx.lineWidth = shape.wLine;
+        ctx.lineWidth = shape.lineWidth;
         ctx.beginPath();
         ctx.save();
         ctx.translate(shape.xCircle, shape.yCircle);
@@ -265,12 +265,12 @@ function bulletDetection(n) {
     }
 }
 
-function newCircle(x1, y1, r1, wLine1, startAngle1, endAngle1, xVelocity1, yVelocity1, color1) {
+function newCircle(x1, y1, r1, lineWidth1, startAngle1, endAngle1, xVelocity1, yVelocity1, color1) {
     return {
         x: x1,
         y: y1,
         r: r1,
-        wLine: wLine1,
+        lineWidth: lineWidth1,
         startAngle: startAngle1,
         endAngle: endAngle1,
         xVelocity: xVelocity1,
@@ -307,7 +307,7 @@ function reset() {
         yLine: canvasMidHeight,
         x1Line: canvasMidWidth,
         y1Line: canvasMidHeight - 25,
-        wLine: 5,
+        lineWidth: 5,
         lineColor: "red",
         xVelocity: 5,
         yVelocity: 5,
